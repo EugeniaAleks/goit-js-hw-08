@@ -1,4 +1,4 @@
-"use strickt";
+"use strict";
 
 const images = [
   {
@@ -67,6 +67,7 @@ const images = [
 ];
 
 const galleryEl = document.querySelector(".gallery");
+const imgEl = document.querySelector(".gallery-image");
 
 const galleryMarkup = images
   .map(
@@ -86,12 +87,22 @@ const galleryMarkup = images
 
 galleryEl.insertAdjacentHTML("beforeend", galleryMarkup);
 
-const chooseImg = (event) => {
+let imgOnClick;
+
+const selectImg = (event) => {
   event.preventDefault();
-  console.log(event.target.nodeName);
-  //   if (event.target.nodeName !== "a" || !== "img") {
-  //     return;
-  //   }
+
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+
+  imgOnClick = event.target.dataset.source;
+  const modalEl = basicLightbox.create(
+    `
+		<img width="1400" height="800" src="${imgOnClick}">
+	`
+  );
+  modalEl.show();
 };
 
-galleryEl.addEventListener("cklick", chooseImg);
+galleryEl.addEventListener("click", selectImg);
